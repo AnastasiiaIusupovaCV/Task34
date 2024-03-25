@@ -1,0 +1,30 @@
+При вызове генерации документации для проекта многие поля заполняются неправильно или остаются пустыми, оставляя их заполнение на разработчика, т.к. многий функционал остается "непонятным" IDE.
+
+Неправильно оформленная документация функции, например
+    /*
+    radius
+    */
+    public int radius(){return this.radius;}
+
+приводит при запуске анализатора JavaDoc к выводу предложения о создании документации для функции.
+На члены класса со спецификатором private документация автоматически не создается.
+Классический для doxygen тип коментария для поля класса, например
+public int test;///< test
+    public int var; //!< Detailed description after the member
+    public int var2; /**< Detailed description after the member */
+
+в JavaDoc не распознаются.
+Кроме того, запись типа
+public int var2; /**< Detailed description after the member */
+
+
+    public Circle(int r, java.awt.Graphics g){
+        this.radius = r;
+        this.graphics = g;
+    }
+
+приводит к тому, что JavaDoc  Analyser считает, что "/**< Detailed description after the member */" отноится к описанию 
+конструктора  public Circle(int r, java.awt.Graphics g)
+
+По умолчанию Java не генерирует докуентацию для private метода, потому что подразумевается, что документацией будет пользоваться сторонний разработчик, а private методы и private поля будут для него недоступны, поэтому генерировать для него документацию нет смысла. Однако документацией может воспользоваться другой разработчик этого же пакета, поэтому в Java предусмотрена возможность создавать документацию для private компонентов класса. 
+Чтобы сгенерировать документацию также для элементов с видимостью private элементов в проекте Ant нужно зайти в Project Properties -> Build -> Documenting и включить Include Private and Package Private Members генерацию.
